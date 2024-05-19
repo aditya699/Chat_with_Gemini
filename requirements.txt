@@ -1,3 +1,6 @@
 langchain-google-genai
 pillow
 python-dotenv
+SpeechRecognition
+pyttsx3
+PyAudio
