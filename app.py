@@ -2,31 +2,19 @@ import os
 import getpass
 from dotenv import load_dotenv
 from langchain_google_genai import ChatGoogleGenerativeAI
-import speech_recognition as sr
-import pyttsx3
+from src import utils
 
-# Initialize recognizer class (for recognizing the speech)
-r = sr.Recognizer()
-# r.energy_threshold=10
-# Initialize text-to-speech engine
-engine = pyttsx3.init()
+#Load environment variables from .env file
+load_dotenv()
 
-with sr.Microphone() as source:
-        
-        engine.say("Hi what would you like to study today?")
-        engine.runAndWait()
-        audio_text = r.listen(source)
+#Retrieve the API key from the environment variable
+google_api_key = os.getenv("GEMINI_API_KEY")
+os.environ['GOOGLE_API_KEY']=google_api_key 
+llm = ChatGoogleGenerativeAI(model="gemini-pro")
 
-        print(audio_text)
+query=utils.get_text()
+print(query)
 
-        engine.say(f"{audio_text}")
-
-        engine.say("thanks")
-        engine.runAndWait()
-# # Load environment variables from .env file
-# load_dotenv()
-# # Retrieve the API key from the environment variable
-# google_api_key = os.getenv("GEMINI_API_KEY")
 
 # os.environ['GOOGLE_API_KEY']=google_api_key 
 # llm = ChatGoogleGenerativeAI(model="gemini-pro")
