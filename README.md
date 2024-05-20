@@ -1,4 +1,4 @@
-# Inclusive.AI
+# Chat_With_Gemini
 
 This project is a audio chatbot that helps you to talk to google gemini using langchain and basic modular coding Made By Aditya Bhatt
 
