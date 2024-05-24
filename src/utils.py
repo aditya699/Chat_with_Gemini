@@ -18,12 +18,12 @@ engine = pyttsx3.init()
 
 # Set the speaking rate (default is around 200 words per minute)
 rate = engine.getProperty('rate')
-engine.setProperty('rate', rate - 50)  # Decrease the rate to make it speak more slowly
+engine.setProperty('rate', rate - 20)  # Decrease the rate to make it speak more slowly
 
 def get_text():
     while True:
         with sr.Microphone() as source:
-            engine.say("Hi, what would you like to study or ask me today?")
+            engine.say("Hi, what would you like to ask me today? If you want to end the conversation say quit")
             engine.runAndWait()
             
             print("Listening...")
