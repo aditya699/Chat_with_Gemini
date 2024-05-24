@@ -23,8 +23,11 @@ engine.setProperty('rate', rate - 20)  # Decrease the rate to make it speak more
 def get_text():
     while True:
         with sr.Microphone() as source:
-            engine.say("Hi, what would you like to ask me today? If you want to end the conversation say quit")
+            
+            engine.say(f"Hi how may i help you today?Say Quit to end chat")
             engine.runAndWait()
+
+      
             
             print("Listening...")
             audio_text = r.listen(source)

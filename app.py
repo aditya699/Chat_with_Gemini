@@ -38,14 +38,16 @@ llm = ChatGoogleGenerativeAI(model="gemini-pro", temperature=0, safety_settings=
 llm_1 = ChatOpenAI(model="gpt-3.5-turbo")
 
 # Define the processing chains
-chain = prompt_one | llm | output_parser
-chain2 = prompt_one | llm_1 | output_parser
+chain = prompt_one | llm    | output_parser
+chain2 = prompt_one| llm_1  | output_parser
+
 
 # Create a DataFrame to store conversation logs
 columns = ['Timestamp', 'Student Question', 'Response', 'Source']
 log_df = pd.DataFrame(columns=columns)
-
+result=None
 while True:
+    
     start_of_conversation = utils.get_text()
     if start_of_conversation == 'quit':
         break
@@ -71,7 +73,11 @@ while True:
         engine.say(result)
         engine.runAndWait()
 
-# Save the log DataFrame to a CSV file with timestamp in the filename
+# Ensure the data directory exists
+data_dir = 'data'
+os.makedirs(data_dir, exist_ok=True)
+
+# Save the log DataFrame to a CSV file inside the data folder with timestamp in the filename
 timestamp_str = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-filename = f'conversation_log_{timestamp_str}.csv'
+filename = os.path.join(data_dir, f'conversation_log_{timestamp_str}.csv')
 log_df.to_csv(filename, index=False)
