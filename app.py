@@ -41,6 +41,13 @@ llm_1 = ChatOpenAI(model="gpt-3.5-turbo")
 chain = prompt_one | llm    | output_parser
 chain2 = prompt_one| llm_1  | output_parser
 
+prompt_two = ChatPromptTemplate.from_template("The following the answer given by chatbot to the user {answer} ask a question like do you want to ask anything else to me?")
+
+chain3 = prompt_two | llm    | output_parser
+chain4 = prompt_two| llm_1  | output_parser
+#print(chain3.invoke("Atomic Habits is a self-help book by James Clear that focuses on the power of small, incremental changes in building lasting habits. It emphasizes the importance of creating systems and routines that make it easier to adopt positive habits and break negative ones. The book provides practical strategies for setting goals, tracking progress, and overcoming obstacles. By breaking down habits into their smallest components, Atomic Habits empowers readers to make gradual improvements that accumulate over time, leading to significant transformations in their lives."))
+
+
 
 # Create a DataFrame to store conversation logs
 columns = ['Timestamp', 'Student Question', 'Response', 'Source']
@@ -48,7 +55,7 @@ log_df = pd.DataFrame(columns=columns)
 result=None
 while True:
     
-    start_of_conversation = utils.get_text()
+    start_of_conversation = utils.get_text(result)
     if start_of_conversation == 'quit':
         break
     else:
@@ -72,6 +79,13 @@ while True:
         # Output the response via TTS
         engine.say(result)
         engine.runAndWait()
+
+        result_set=chain3.invoke(f"{result}")
+        if result_set is None:
+            result_set=chain4.invoke(f"{result}")
+
+        result=result_set
+
 
 # Ensure the data directory exists
 data_dir = 'data'

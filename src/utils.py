@@ -20,15 +20,17 @@ engine = pyttsx3.init()
 rate = engine.getProperty('rate')
 engine.setProperty('rate', rate - 20)  # Decrease the rate to make it speak more slowly
 
-def get_text():
+def get_text(input_text:None):
     while True:
         with sr.Microphone() as source:
-            
-            engine.say(f"Hi how may i help you today?Say Quit to end chat")
-            engine.runAndWait()
+            if input_text is None:
+                engine.say(f"Hi how may i help you today?Say Quit to end chat")
+                engine.runAndWait()
 
-      
-            
+            else:
+                engine.say(f"{input_text}")
+                engine.runAndWait()
+           
             print("Listening...")
             audio_text = r.listen(source)
 
