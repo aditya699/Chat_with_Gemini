@@ -14,3 +14,7 @@ langchain-chroma
 bs4
 pypdf
 langchain-google-vertexai
+PyPDF2
+chromadb
+faiss-cpu
+chainlit

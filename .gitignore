@@ -3,3 +3,9 @@
 
 # Ignore environment variables file
 .env
+
+#Ignore files
+.__pycache__
+.chainlit
+faiss_index
+books
