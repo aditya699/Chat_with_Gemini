@@ -6,3 +6,11 @@ pyttsx3
 PyAudio
 langchain-openai
 pandas
+streamlit
+langchain
+langchain-community
+langchainhub
+langchain-chroma
+bs4
+pypdf
+langchain-google-vertexai
