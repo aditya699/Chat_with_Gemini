@@ -19,6 +19,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain import hub
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import PromptTemplate
 import chainlit as cl
 
 # Retrieve the API key from the environment variable
@@ -55,9 +56,22 @@ vector_store = FAISS.from_texts(chunks, embedding=embeddings)
 vector_store.save_local("faiss_index")
 
 retriever = vector_store.as_retriever()
-prompt = hub.pull("rlm/rag-prompt")
+
 
 llm = ChatGoogleGenerativeAI(model="gemini-pro", temperature=0, safety_settings=None)
+
+template = """Use the following pieces of context to answer the question at the end.
+Always say "thanks for asking!" at the end of the answer.
+
+{context}
+
+Question: {question}
+
+Helpful Answer:"""
+prompt = PromptTemplate.from_template(template)
+
+
+
 
 
 def format_docs(docs):
