@@ -1,5 +1,5 @@
 '''
-In case any teacher wants to use translation they can use this right know this will convert to hindi
+In case any teacher wants to use translation
 '''
 
 
