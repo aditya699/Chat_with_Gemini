@@ -1,10 +1,8 @@
 '''
-Author - Aditya Bhatt 26-05-2024 8:22 PM
+Author - Aditya Bhatt 27-05-2024 10:22 AM
 
 Objective -
-1.Create a system for students to chat with ncert based data.
-
-For Demo Purpose we have taken Civics book for Class 8(NCERT)
+1.Help Teachers create assignements on NCERT Books
 '''
 import PyPDF2
 import os
@@ -20,8 +18,8 @@ from langchain import hub
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import PromptTemplate
-import chainlit as cl
-from datetime import datetime
+
+
 
 # Retrieve the API key from the environment variable
 google_api_key = os.getenv("GEMINI_API_KEY")
@@ -31,7 +29,7 @@ def extract_text_from_pdf(pdf_path):
     # Open the PDF file
     with open(pdf_path, 'rb') as file:
         # Create a PDF reader object
-        pdf_reader = PdfReader(file)
+        pdf_reader =PdfReader(file)
         
         # Get the number of pages in the PDF
         num_pages = len(pdf_reader.pages)
@@ -45,7 +43,7 @@ def extract_text_from_pdf(pdf_path):
         return text
     
 # Example usage
-pdf_path = 'books/civics.pdf'
+pdf_path = 'C:/Users/aditya/Desktop/2024/Inclusive.AI/books/civics.pdf'
 text = extract_text_from_pdf(pdf_path)
 # print(text)
 
@@ -58,10 +56,10 @@ vector_store.save_local("faiss_index")
 
 retriever = vector_store.as_retriever()
 
+
 llm = ChatGoogleGenerativeAI(model="gemini-pro", temperature=0, safety_settings=None)
 
-template = """Use the following pieces of context to answer the question at the end.
-Always say "thanks for asking!" at the end of the answer.
+template = """Act a school teacher Use the following pieces of context to generate the 10 question and answers at the end.
 
 {context}
 
@@ -70,8 +68,11 @@ Question: {question}
 Helpful Answer:"""
 prompt = PromptTemplate.from_template(template)
 
+
+
 def format_docs(docs):
-    return "\n\n".join(doc.page_content for doc in docs)
+    return "/n/n".join(doc.page_content for doc in docs)
+
 
 rag_chain = (
     {"context": retriever | format_docs, "question": RunnablePassthrough()}
@@ -81,15 +82,5 @@ rag_chain = (
 )
 
 
-@cl.on_message
-async def main(user_message:cl.Message):
-    global df  # Ensure that the dataframe is accessible
-    user_input = user_message.content
-    response = rag_chain.invoke(user_input)
-    
-    # Send a response back to the user
-    await cl.Message(
-        content=f"Received: {response}",
-    ).send()
-
-
+n=input("Enter the chapter name : ")
+print(rag_chain.invoke(n))
