@@ -1,7 +1,12 @@
 '''
-Objective -
-1.Create audio summary for all chapters
+In case any teacher wants to use translation
 '''
+import os
+import openai
+from langchain_openai import AzureOpenAI
+from langchain_core.messages import HumanMessage
+from langchain_openai import AzureChatOpenAI
+from dotenv import load_dotenv
 import PyPDF2
 import os
 import getpass
@@ -19,13 +24,19 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import PromptTemplate
 from gtts import gTTS
 from datetime import datetime
+# Load environment variables from .env file
+load_dotenv()
+# Retrieve the API key from the environment variable
+google_api_key = os.getenv("GEMINI_API_KEY")
+os.environ['GOOGLE_API_KEY'] = google_api_key
+os.environ["AZURE_OPENAI_API_VERSION"] = os.getenv("AZURE_OPENAI_API_VERSION")
+os.environ["AZURE_OPENAI_ENDPOINT"]=os.getenv("AZURE_OPENAI_ENDPOINT")
+os.environ["AZURE_OPENAI_API_KEY"]=os.getenv("AZURE_OPENAI_API_KEY")
+os.environ["AZURE_OPENAI_CHAT_DEPLOYMENT_NAME"] = os.getenv("AZURE_OPENAI_CHAT_DEPLOYMENT_NAME")
 
 # Load environment variables from .env file
 load_dotenv()
 
-# Retrieve the API key from the environment variable
-google_api_key = os.getenv("GEMINI_API_KEY")
-os.environ['GOOGLE_API_KEY'] = google_api_key
 
 
 def extract_text_from_pdf(pdf_path):
@@ -58,9 +69,12 @@ vector_store = FAISS.from_texts(chunks, embedding=embeddings)
 vector_store.save_local("faiss_index")
 
 retriever = vector_store.as_retriever()
+llm= AzureChatOpenAI(
+    openai_api_version=os.environ["AZURE_OPENAI_API_VERSION"],
+    azure_deployment=os.environ["AZURE_OPENAI_CHAT_DEPLOYMENT_NAME"],
+)
 
-llm = ChatGoogleGenerativeAI(model="gemini-pro", temperature=0, safety_settings=None)
-
+llm2 = ChatGoogleGenerativeAI(model="gemini-pro", temperature=0, safety_settings=None)
 template = """Use the following pieces of context to summarize the text, and add relevant text based on your understanding of the question.
 Always return a paragraphs with no special chracters
 
@@ -81,12 +95,19 @@ rag_chain = (
     | StrOutputParser()
 )
 
+rag_chain1 = (
+    {"context": retriever | format_docs, "question": RunnablePassthrough()}
+    | prompt
+    | llm2
+    | StrOutputParser()
+)
+
 list_of_chapters=['On Equality','Role of the Government in Health','Growing up as Boys and Girls']
 for i in list_of_chapters:
     
     print(f"Summary on chapter {i}")
     mytext=rag_chain.invoke(i)
-    # Language in which you want to convert
+    ##Language in which you want to convert
     language = 'en'
 
     # Passing the text and language to the engine, 
@@ -97,8 +118,21 @@ for i in list_of_chapters:
 
     # Saving the converted audio in a mp3 file named
     # welcome 
-    myobj.save(f"audio_summary/summary_{i}_english.mp3")
+    myobj.save(f"audio_summary/summary_{i}_english_gpt4o.mp3")
 
+    mytext=rag_chain1.invoke(i)
+    ##Language in which you want to convert
+    language = 'en'
+
+    # Passing the text and language to the engine, 
+    # here we have marked slow=False. Which tells 
+    # the module that the converted audio should 
+    # have a high speed
+    myobj = gTTS(text=mytext, lang=language, slow=False)
+
+    # Saving the converted audio in a mp3 file named
+    # welcome 
+    myobj.save(f"audio_summary/summary_{i}_english_gemini.mp3")
 
 
 
