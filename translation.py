@@ -1,18 +1,18 @@
 '''
 In case any teacher wants to use translation
 '''
-
-
-
 import os
 import openai
 from langchain_openai import AzureOpenAI
 from langchain_core.messages import HumanMessage
 from langchain_openai import AzureChatOpenAI
-os.environ["AZURE_OPENAI_API_VERSION"] = "2023-06-01-preview"
-os.environ["AZURE_OPENAI_ENDPOINT"]="https://aiagents.openai.azure.com/"
-os.environ["AZURE_OPENAI_API_KEY"]="198e8394cb0f47e69807d2bcd7a26c60"
-os.environ["AZURE_OPENAI_CHAT_DEPLOYMENT_NAME"] = "test_4o"
+from dotenv import load_dotenv
+# Load environment variables from .env file
+load_dotenv()
+os.environ["AZURE_OPENAI_API_VERSION"] = os.getenv("AZURE_OPENAI_API_VERSION")
+os.environ["AZURE_OPENAI_ENDPOINT"]=os.getenv("AZURE_OPENAI_ENDPOINT")
+os.environ["AZURE_OPENAI_API_KEY"]=os.getenv("AZURE_OPENAI_API_KEY")
+os.environ["AZURE_OPENAI_CHAT_DEPLOYMENT_NAME"] = os.getenv("AZURE_OPENAI_CHAT_DEPLOYMENT_NAME")
 model = AzureChatOpenAI(
     openai_api_version=os.environ["AZURE_OPENAI_API_VERSION"],
     azure_deployment=os.environ["AZURE_OPENAI_CHAT_DEPLOYMENT_NAME"],
