@@ -8,6 +8,6 @@ In the 2023-24 Union Budget, the Centre allocated Rs 1.13 lakh crore to educatio
 
 Also since this app is mostly multimodal will help blind students as well.
 
-![AI assistant](https://saibaba9758140479.blob.core.windows.net/fileupload-test/An ai tool that make teachers and students life easy in india.png)
+![AI assistant](https://saibaba9758140479.blob.core.windows.net/fileupload-test/An%20ai%20tool%20that%20make%20teachers%20and%20students%20life%20easy%20in%20india.png)
 
 
