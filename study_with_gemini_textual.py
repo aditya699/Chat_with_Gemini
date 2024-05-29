@@ -60,8 +60,7 @@ retriever = vector_store.as_retriever()
 
 llm = ChatGoogleGenerativeAI(model="gemini-pro", temperature=0, safety_settings=None)
 
-template = """Use the following pieces of context to answer the question at the end.
-Always say "thanks for asking!" at the end of the answer.
+template = """Act as friendly chatbot and give answer based on your knowledge and use the below context also.
 
 {context}
 
@@ -83,7 +82,7 @@ rag_chain = (
 
 @cl.on_message
 async def main(user_message:cl.Message):
-    global df  # Ensure that the dataframe is accessible
+
     user_input = user_message.content
     response = rag_chain.invoke(user_input)
     
@@ -91,5 +90,3 @@ async def main(user_message:cl.Message):
     await cl.Message(
         content=f"Received: {response}",
     ).send()
-
-
