@@ -6,7 +6,6 @@ In the Indian context, where the teacher-to-student ratio is significantly low, 
 
 In the 2023-24 Union Budget, the Centre allocated Rs 1.13 lakh crore to education, yet many states still struggle with poor student-teacher ratios. Inclusive.AI can play a crucial role in bridging this gap by offering educational support to both students and teachers, especially in states with the most challenging student-teacher ratios.
 
-Also since this app is mostly multimodal will help blind students as well.
 
 ![AI assistant](https://saibaba9758140479.blob.core.windows.net/fileupload-test/An%20ai%20tool%20that%20make%20teachers%20and%20students%20life%20easy%20in%20india.png)
 
