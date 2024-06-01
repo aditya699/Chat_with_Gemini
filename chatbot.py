@@ -92,6 +92,6 @@ data_dir = 'data'
 os.makedirs(data_dir, exist_ok=True)
 
 # Save the log DataFrame to a CSV file inside the data folder with timestamp in the filename
-timestamp_str = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+timestamp_str = datetime.datetime.now().strftime("%Y-%m-%d")
 filename = os.path.join(data_dir, f'conversation_log_{timestamp_str}.csv')
 log_df.to_csv(filename, index=False)

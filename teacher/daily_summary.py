@@ -34,7 +34,7 @@ today = datetime.today().date()
 
 # Read the CSV file containing the questions and responses
 data_dir = './data/'
-csv_file = os.path.join(data_dir, f'combined_log_{today}.csv')
+csv_file = os.path.join(data_dir, f'conversation_log_{today}.csv')
 
 # Load the CSV file into a DataFrame
 df = pd.read_csv(csv_file)
